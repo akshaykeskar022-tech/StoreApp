@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CartResponseDTO
 {
+    private Integer id;
     private List<CartItemResponseDTO> items;
     private double totalAmount;
 }

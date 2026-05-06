@@ -3,6 +3,7 @@ package com.example.store.controller;
 import com.example.store.dto.AdminSignUpDTO;
 import com.example.store.dto.CustomerRequestDTO;
 import com.example.store.dto.LoginDTO;
+import com.example.store.dto.LoginResponseDTO;
 import com.example.store.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class UserController
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginDTO dto)
+    public LoginResponseDTO login(@Valid @RequestBody LoginDTO dto)
     {
         return userService.login(dto);
     }

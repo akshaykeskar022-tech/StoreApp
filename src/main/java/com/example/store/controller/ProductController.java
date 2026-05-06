@@ -25,7 +25,7 @@ public class ProductController
         return productService.createProduct(requestDTO);
     }
 
-    @GetMapping("/getAllProduct")
+    @GetMapping("/getAllProducts")
     public List<ProductResponseDTO> getAllProducts()
     {
        return productService.getAllProducts();

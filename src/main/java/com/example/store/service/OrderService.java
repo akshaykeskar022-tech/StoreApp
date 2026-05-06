@@ -1,17 +1,14 @@
 package com.example.store.service;
 
-import com.example.store.dto.CartItemResponseDTO;
 import com.example.store.dto.OrderItemResponseDTO;
 import com.example.store.dto.OrderRequestDTO;
 import com.example.store.dto.OrderResponseDTO;
 import com.example.store.mapper.GenericModelMapper;
 import com.example.store.model.*;
 import com.example.store.repository.*;
-import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.image.RasterFormatException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +72,7 @@ public class OrderService
 
        order.setOrderItems(orderItemList);
        order.setTotalAmount(total);
-       //Save Order and CascadeType.ALL save OrderItem
+       //Save Order and CascadeType.ALL will save OrderItem
        ordersRepository.save(order);
 
        //Clear Cart

@@ -3,6 +3,7 @@ package com.example.store.service;
 import com.example.store.dto.AdminSignUpDTO;
 import com.example.store.dto.CustomerRequestDTO;
 import com.example.store.dto.LoginDTO;
+import com.example.store.dto.LoginResponseDTO;
 import com.example.store.mapper.GenericModelMapper;
 import com.example.store.model.Users;
 import com.example.store.repository.UsersRepository;
@@ -34,15 +35,15 @@ public class UserService
        return "SignUp success;";
     }
 
-    public String login (LoginDTO dto)
+    public LoginResponseDTO login (LoginDTO dto)
     {
-        Users user=usersRepository.findByEmail(dto.getEmail()).orElseThrow(()-> new RuntimeException("User not found"));
+        Users user=usersRepository.findByEmail(dto.getEmail())
+                .orElseThrow(()-> new RuntimeException("User not found"));
 
         if(dto.getPassword().equals(user.getPassword()))
-            return "Login successfully";
+         return mapper.convertToDTO(user,LoginResponseDTO.class);
         else
             throw new RuntimeException("Invalid Password");
-
     }
 
     public String createCustomer(CustomerRequestDTO dto)

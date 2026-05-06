@@ -1,5 +1,6 @@
 package com.example.store.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartItemResponseDTO
+public class LoginResponseDTO
 {
     private Integer id;
-    private String productName;
-    private double mrp;
-    private int quantity;
-    private double subtotal;
+
+    private String name;
+
+    private String email;
+
+    private String role;
 }

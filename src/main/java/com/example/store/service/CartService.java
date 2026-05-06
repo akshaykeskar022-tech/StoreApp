@@ -3,6 +3,7 @@ package com.example.store.service;
 import com.example.store.dto.CartItemResponseDTO;
 import com.example.store.dto.CartRequestDTO;
 import com.example.store.dto.CartResponseDTO;
+import com.example.store.dto.UpdateQuantityDTO;
 import com.example.store.mapper.GenericModelMapper;
 import com.example.store.model.Cart;
 import com.example.store.model.CartItem;
@@ -84,8 +85,9 @@ public class CartService
     {
         CartResponseDTO cartResponseDTO=new CartResponseDTO();
 
-       Cart cart= cartRepository.findByUserId(userId)
-               .orElseThrow(()->new RuntimeException("Cart not found"));
+       Cart cart= cartRepository.findByUserId(userId).orElse(null);
+       if(cart==null)
+           return null;
 
        //Map CartItem to CartItemResponseDTO
         List<CartItemResponseDTO> itemResponseDTOList=new ArrayList<>();
@@ -94,6 +96,7 @@ public class CartService
         for(CartItem item:cart.getCartItems() )
         {
             CartItemResponseDTO cartItemResponseDTO=new CartItemResponseDTO();
+            cartItemResponseDTO.setId(item.getId());
             cartItemResponseDTO.setProductName(item.getProduct().getProductName());
             cartItemResponseDTO.setQuantity(item.getQuantity());
             cartItemResponseDTO.setMrp(item.getProduct().getMrp());
@@ -108,5 +111,22 @@ public class CartService
         cartResponseDTO.setTotalAmount(totalAmount);
 
        return cartResponseDTO;
+    }
+
+    public String removeItem(Integer itemId)
+    {
+        CartItem cartItem= cartItemRepository.findById(itemId)
+                .orElseThrow(()-> new RuntimeException("CartItem not found"));
+        cartItemRepository.deleteById(itemId);
+        return "Removed item successfully from cart";
+    }
+
+    public String updateQuantity(UpdateQuantityDTO dto)
+    {
+       CartItem cartItem= cartItemRepository.findById(dto.getId())
+               .orElseThrow(()-> new RuntimeException("CartItem not found"));
+       cartItem.setQuantity(dto.getQuantity());
+        cartItemRepository.save(cartItem);
+       return "Updated successfully";
     }
 }

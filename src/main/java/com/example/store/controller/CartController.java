@@ -2,6 +2,7 @@ package com.example.store.controller;
 
 import com.example.store.dto.CartRequestDTO;
 import com.example.store.dto.CartResponseDTO;
+import com.example.store.dto.UpdateQuantityDTO;
 import com.example.store.service.CartService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,18 @@ public class CartController
     {
       return cartService.getCartByUserId(userId);
     }
+
+    @PostMapping("/cart/removeItem/{itemId}")
+    public String removeItemById(@PathVariable Integer itemId)
+    {
+       return cartService.removeItem(itemId);
+    }
+
+    @PostMapping("/cart/updateQuantity")
+    public String updateQuantity(@RequestBody UpdateQuantityDTO dto)
+    {
+      return cartService.updateQuantity(dto);
+    }
+
 
 }
