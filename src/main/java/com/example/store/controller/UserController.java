@@ -1,15 +1,11 @@
 package com.example.store.controller;
 
-import com.example.store.dto.AdminSignUpDTO;
-import com.example.store.dto.CustomerRequestDTO;
-import com.example.store.dto.LoginDTO;
-import com.example.store.dto.LoginResponseDTO;
+import com.example.store.dto.*;
 import com.example.store.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/store")
@@ -37,6 +33,18 @@ public class UserController
    public String createCustomer(@Valid @RequestBody CustomerRequestDTO dto)
    {
        return userService.createCustomer(dto);
+   }
+
+   @GetMapping("/admin/getUsers")
+   public List<CustomerResponseDTO> getAllUsers()
+   {
+       return userService.getAllUsers();
+   }
+
+   @DeleteMapping("/admin/removeUser/{userId}")
+   public String removeUser(@PathVariable Integer userId)
+   {
+      return userService.removeUser(userId);
    }
 
 }

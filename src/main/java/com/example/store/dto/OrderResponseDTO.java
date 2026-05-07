@@ -16,6 +16,8 @@ public class OrderResponseDTO
 {
     private Integer orderId;
 
+    private String userName;
+
     private double totalAmount;
 
     private LocalDateTime createdAt;

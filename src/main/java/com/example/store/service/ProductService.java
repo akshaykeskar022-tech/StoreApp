@@ -2,6 +2,7 @@ package com.example.store.service;
 
 import com.example.store.dto.ProductRequestDTO;
 import com.example.store.dto.ProductResponseDTO;
+import com.example.store.dto.UpdateProductDTO;
 import com.example.store.mapper.GenericModelMapper;
 import com.example.store.model.Products;
 import com.example.store.repository.ProductRepository;
@@ -43,5 +44,23 @@ public class ProductService
         }
 
         return responseDTOList;
+    }
+
+    public String removeProduct(Integer productId)
+    {
+        Products product=productRepository.findById(productId)
+                .orElseThrow(()->new RuntimeException("Product Not found"));
+        productRepository.deleteById(productId);
+        return "Product removed successfully";
+    }
+
+    public String updateProduct(UpdateProductDTO requestDTO)
+    {
+       Products product= productRepository.findById(requestDTO.getId())
+                .orElseThrow(()->new RuntimeException("Product not found"));
+       product.setProductName(requestDTO.getProductName());
+       product.setMrp(requestDTO.getMrp());
+       productRepository.save(product);
+       return "Product updated successfully";
     }
 }

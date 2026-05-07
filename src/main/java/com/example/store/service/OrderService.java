@@ -110,6 +110,7 @@ public class OrderService
         {
             OrderResponseDTO responseDTO=new OrderResponseDTO();
             responseDTO.setOrderId(order.getId());
+            responseDTO.setUserName(order.getUser().getName());
             responseDTO.setCreatedAt(order.getCreatedAt());
             responseDTO.setTotalAmount(order.getTotalAmount());
 

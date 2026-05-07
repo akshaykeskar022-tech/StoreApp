@@ -37,7 +37,7 @@ public class CartController
     }
 
     @PostMapping("/cart/updateQuantity")
-    public String updateQuantity(@RequestBody UpdateQuantityDTO dto)
+    public String updateQuantity( @Valid @RequestBody UpdateQuantityDTO dto)
     {
       return cartService.updateQuantity(dto);
     }

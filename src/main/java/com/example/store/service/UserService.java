@@ -1,14 +1,13 @@
 package com.example.store.service;
 
-import com.example.store.dto.AdminSignUpDTO;
-import com.example.store.dto.CustomerRequestDTO;
-import com.example.store.dto.LoginDTO;
-import com.example.store.dto.LoginResponseDTO;
+import com.example.store.dto.*;
 import com.example.store.mapper.GenericModelMapper;
 import com.example.store.model.Users;
 import com.example.store.repository.UsersRepository;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.reader.ReaderException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService
@@ -24,6 +23,10 @@ public class UserService
 
     public String adminSignUp (AdminSignUpDTO dto)
     {
+        String adminSecretCode="OnlyAdmin4321";
+        if(!dto.getAdminCode().equals(adminSecretCode))
+            throw new RuntimeException("Invalid Admin code");
+
         Users user;
        if(usersRepository.existsByEmail(dto.getEmail()))
            throw new RuntimeException("Email already exists.");
@@ -32,7 +35,7 @@ public class UserService
 
        user.setRole("ADMIN");
        usersRepository.save(user);
-       return "SignUp success;";
+       return "SignUp success";
     }
 
     public LoginResponseDTO login (LoginDTO dto)
@@ -56,4 +59,23 @@ public class UserService
 
         return "Customer created successfully.";
     }
+
+    public List<CustomerResponseDTO> getAllUsers()
+    {
+        List<Users> usersList=usersRepository.findAll();
+        List<CustomerResponseDTO> dtoList=new ArrayList<>();
+        //     return studentList.stream().map(this::convertToDTO).toList();
+        for(Users user:usersList)
+          dtoList.add( mapper.convertToDTO(user,CustomerResponseDTO.class)) ;
+        return dtoList;
+    }
+
+    public String removeUser(Integer userId)
+    {
+        usersRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("User not found"));
+        usersRepository.deleteById(userId);
+        return "User removed successfully";
+    }
+
 }
